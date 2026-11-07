@@ -40,7 +40,6 @@ class WebastoConnectConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Webasto Connect."""
 
     VERSION = 1
-    CONNECTION_CLASS = config_entries.CONN_CLASS_CLOUD_POLL
 
     @staticmethod
     @callback
