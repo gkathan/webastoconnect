@@ -130,8 +130,8 @@ class WebastoBaseEntity(CoordinatorEntity[DataUpdateCoordinator[None]]):
             "name": self._device_name,
             "model": "ThermoConnect",
             "manufacturer": "Webasto",
-            "hw_version": settings.get("hw_version", "Unknown"),
-            "sw_version": settings.get("sw_version", "Unknown"),
+            "hw_version": str(settings["hw_version"]) if settings.get("hw_version") is not None else "Unknown",
+            "sw_version": str(settings["sw_version"]) if settings.get("sw_version") is not None else "Unknown",
             "configuration_url": "https://my.webastoconnect.com",
         }
 
