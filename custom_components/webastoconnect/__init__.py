@@ -129,10 +129,13 @@ async def _async_update_device_registry_name(
     hass: HomeAssistant,
     device_id: int,
     device_name: str,
+    config_entry_id: str,
 ) -> None:
     """Update the device registry name."""
     device_registry = dr.async_get(hass)
-    device_entry = device_registry.async_get_device(identifiers={(DOMAIN, str(device_id))})
+    device_entry = device_registry.async_get_device_by_identifier(
+        (DOMAIN, str(device_id)), config_entry_id
+    )
     if device_entry is None or device_entry.name_by_user is not None:
         return
     if device_entry.name == device_name:
@@ -288,7 +291,7 @@ async def _async_setup(
     for id, device in coordinator.cloud.devices.items():
         device_name = webasto_device_name(device, webapi_device_names.get(str(id)))
         LOGGER.debug("Found device: %s", device_name)
-        await _async_update_device_registry_name(hass, id, device_name)
+        await _async_update_device_registry_name(hass, id, device_name, entry.entry_id)
         # Migrate unique IDs
         await _async_migrate_unique_ids(hass, id, device_name, entry)
 
